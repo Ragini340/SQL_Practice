@@ -14,9 +14,10 @@ Insert Into Employee_Details Values (4, 'Amrit', 'Dev', 10000);
 Insert Into Employee_Details Values (5, 'Ranjeet', 'Support', 12000);
 Insert Into Employee_Details Values (6, 'Ajeet', 'L&D', Null);
 
-SELECT Max(Salary) From Employee_Details;
-SELECT Max(Salary) From Employee_Details Where Salary != (SELECT Max(Salary) From Employee_Details);
-SELECT Min(Salary) From Employee_Details Where Salary IN (SELECT Distinct Salary From Employee_Details Order By Salary desc Limit 3 );
+SELECT Max(Salary) From Employee_Details;  --Highest salary 
+SELECT Max(Salary) From Employee_Details Where Salary != (SELECT Max(Salary) From Employee_Details); --2nd highest salary
+--3rd highest salary
+SELECT Min(Salary) From Employee_Details Where Salary IN (SELECT Distinct Salary From Employee_Details Order By Salary desc Limit 3);
 
 SELECT COUNT(*) From Employee_Details;
 SELECT COUNT(Salary) From Employee_Details;
@@ -50,6 +51,93 @@ SELECT Replace(Name, 'v', 't') FROM Employee_Details;
 --From -> Join -> Where -> Group By -> Having -> Select -> Distinct -> Order By -> LIMIT
 
 --Write a query to display all the department names along with number of employees working in that department
-SELECT Column Department, Count(*) From Employee_Details Group By Department;
+SELECT Department, Count(*) From Employee_Details Group By Department;
+                              --Or
+SELECT Department, Count(Department) From Employee_Details Group By Department;
 
 -- https://www.google.com/search?q=order+for+writting+query&rlz=1C1CHZN_enIN1045IN1045&oq=order+for+writting+query&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIICAEQABgWGB4yDQgCEAAYhgMYgAQYigUyDQgDEAAYhgMYgAQYigUyDQgEEAAYhgMYgAQYigUyDQgFEAAYhgMYgAQYigUyCggGEAAYgAQYogTSAQkxNTA2OGowajeoAgCwAgA&sourceid=chrome&ie=UTF-8
+
+--Write a query to display all the department names Where number of employees are less than 4
+SELECT Department From Employee_Details Group By Department Having Count(*) < 4;
+
+--Write a query to display all the names of employee where in department the number of employees are less than 4
+SELECT Name From Employee_Details Where Department In (SELECT Department From Employee_Details Group By Department Having Count(*) < 4);
+
+-- How to find duplicates without using count(*)
+SELECT e1.Id, e1.Name, e1.Department, e1.Salary
+FROM Employee_Details e1 JOIN Employee_Details e2 ON
+e1.Id = e2.Id
+AND e1.Name <> e2.Name;  -- <>	Not equal to
+
+-- SQL databases offer an Auto Increment feature that automatically generates unique numerical values for a specified column.
+CREATE TABLE Employees(
+Id int IDENTITY(1,1) PRIMARY KEY,  --SQL Auto Increment
+Name varchar(20),
+Department varchar(20),
+Salary int
+);
+Insert Into Employees Values ('Varun', 'HR', 10000);
+Insert Into Employees Values ('Arun', 'Management', 20000);
+Insert Into Employees Values ('Karuna', 'HR', 30000);
+Insert Into Employees Values ('Amrit', 'Dev', 40000);
+Insert Into Employees Values ('Ranjeet', 'Support', 50000);
+Insert Into Employees Values ('Ajeet', 'L&D', 60000);
+SELECT * FROM Employees;
+
+--Write a query to display highest salary department wise and name of employee who is taking that salary
+SELECT NAME FROM Employees Where Salary In (SELECT Max(Salary) From Employees Group By Department);
+
+--The DROP command is a Data Definition Language (DDL) operation used to completely remove a table, its structure, and all 
+--its data from the database. Once executed, the table is permanently deleted and cannot be recovered unless from a backup.
+DROP table Employees;
+
+--Union
+CREATE TABLE Salesman(
+Salesman_id int IDENTITY(5001 ,1) PRIMARY KEY,  --SQL Auto Increment
+Name varchar(20),
+City  varchar(20),
+Commission int
+);
+Insert Into Salesman Values ('James Hoog', 'New York',  0.15);
+Insert Into Salesman Values ('Nail Knite', 'Paris',  0.13);
+Insert Into Salesman Values ('Pit Alex', 'London', 0.11);
+Insert Into Salesman Values ('Mc Lyon', 'Paris', 0.14);
+Insert Into Salesman Values ('Paul Adam', 'Rome', 0.13);
+Insert Into Salesman Values ('Lauson Hen', 'San Jose', 0.12);
+
+--1. From the following tables, write a SQL query to find all salespeople and customers located in the city of London.
+CREATE TABLE  Customer(
+Salesman_id int IDENTITY(5001 ,1) PRIMARY KEY,  --SQL Auto Increment
+Name varchar(20),
+City  varchar(20),
+Commission int
+);
+Insert Into Salesman Values ('James Hoog', 'New York',  0.15);
+Insert Into Salesman Values ('Nail Knite', 'Paris',  0.13);
+Insert Into Salesman Values ('Pit Alex', 'London', 0.11);
+Insert Into Salesman Values ('Mc Lyon', 'Paris', 0.14);
+Insert Into Salesman Values ('Paul Adam', 'Rome', 0.13);
+Insert Into Salesman Values ('Lauson Hen', 'San Jose', 0.12);
+
+CREATE TABLE Customers(
+Customer_id int,
+Cust_name   varchar(20),
+City  varchar(20),
+Grade  int,
+Salesman_id int IDENTITY(5001 ,1) 
+);
+Insert Into Customers Values (3002, 'Nick Rimando', 'New York',  100);
+Insert Into Customers Values (3007, 'Brad Davis', 'New York',  200);
+Insert Into Customers Values (3005, 'Graham Zusi', 'California', 200);
+Insert Into Customers Values (3008, 'Julian Green', 'London', 300);
+Insert Into Customers Values (3004, 'Fabian Johnson', 'Paris', 300);
+Insert Into Customers Values (3009, 'Geoff Cameron', 'Berlin', 100);
+Insert Into Customers Values (3003, 'Jozy Altidor', 'Moscow', 200);
+Insert Into Customers Values (3001, 'Brad Guzan', 'London', 200);
+
+SELECT salesman_id AS "ID", name, 'Salesman' FROM Salesman WHERE city='London' 
+UNION (SELECT customer_id AS "ID", cust_name, 'Customer' FROM Customers WHERE city='London');
+
+--2. From the above tables, write a SQL query to find distinct salespeople and their cities. Return salesperson ID and 
+--city.
+SELECT Salesman_id, city FROM Customers UNION (SELECT Salesman_id, city FROM Salesman);
