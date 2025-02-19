@@ -141,3 +141,34 @@ UNION (SELECT customer_id AS "ID", cust_name, 'Customer' FROM Customers WHERE ci
 --2. From the above tables, write a SQL query to find distinct salespeople and their cities. Return salesperson ID and 
 --city.
 SELECT Salesman_id, city FROM Customers UNION (SELECT Salesman_id, city FROM Salesman);
+
+--Difference between Joins, Nested Subquery and Correlated Subquery
+--Nested Subquery:- Bottom up approach
+--Correlated Subquery:- Top dowm approach
+-- Joins:- Cross product + condition
+
+--Find the details of all employees who works in any department
+Create Table Emp
+(
+E_Id int IDENTITY(1,1) PRIMARY KEY,
+Name varchar(20),
+);
+Insert Into Emp Values ('A');
+Insert Into Emp Values ('B');
+Insert Into Emp Values ('C');
+Insert Into Emp Values ('D');
+Insert Into Emp Values ('E');
+
+Create Table Department
+(
+Dept_No varchar(20),
+Name varchar(20),
+E_Id int IDENTITY(1,1) PRIMARY KEY,
+);
+Insert Into Department Values ('D1', 'IT');
+Insert Into Department Values ('D2', 'HR');
+Insert Into Department Values ('D3', 'MRKT');
+
+SELECT * FROM Emp Where E_Id in(SELECT E_Id From Department); --Nested Subquery
+SELECT * FROM Emp Where Exists (SELECT E_Id From Department Where Emp.E_Id = Department.E_Id); --Correlated Subquery
+SELECT * From Emp, Department Where Emp.E_Id =  Department.E_Id; -- Joins
