@@ -25,3 +25,12 @@ END;
 
 -- Execute the stored procedure with parameter "Sri lanka"
 EXEC GetCustomersByCountry @Country = 'Sri lanka';
+             --Or
+USE [master]
+
+DECLARE	@return_value int
+
+EXEC	@return_value = [dbo].[GetCustomersByCountry]
+		@Country = 'India'
+
+--SELECT	'Return Value' = @return_value
