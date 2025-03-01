@@ -172,3 +172,30 @@ Insert Into Department Values ('D3', 'MRKT');
 SELECT * FROM Emp Where E_Id in(SELECT E_Id From Department); --Nested Subquery
 SELECT * FROM Emp Where Exists (SELECT E_Id From Department Where Emp.E_Id = Department.E_Id); --Correlated Subquery
 SELECT * From Emp, Department Where Emp.E_Id =  Department.E_Id; -- Joins
+
+--Find Nth(1st,2nd,3rd....N) Highest Salary in SQL
+Create Table Emp1
+(
+Id int IDENTITY(1,1) PRIMARY KEY,
+Salary int
+);
+Insert Into Emp1 Values (10000);
+Insert Into Emp1 Values (20000);
+Insert Into Emp1 Values (20000);
+Insert Into Emp1 Values (30000);
+Insert Into Emp1 Values (40000);
+Insert Into Emp1 Values (50000);
+
+--SELECT Id, Salary From Emp1 e1 Where N-1 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary > e1.Salary);
+                  --Max Salary
+SELECT Max(Salary) From Emp1; --1st highest salary
+SELECT Max(Salary) From Emp1 Where Salary != (SELECT Max(Salary) From Emp1); --2nd highest salary
+--SELECT Min(Salary) From Emp1 Where Salary IN (SELECT Distinct Salary From Emp1 Order By Salary desc Limit 3) ; 
+SELECT Id, Salary From Emp1 e1 Where 2 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary > e1.Salary); --3rd highest salary
+SELECT Id, Salary From Emp1 e1 Where 3 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary > e1.Salary); --4th highest salary
+
+                   --Min Salary
+SELECT Min(Salary) From Emp1; --1st lowest salary
+SELECT Min(Salary) From Emp1 Where Salary != (SELECT Min(Salary) From Emp1); --2nd lowest salary
+SELECT Id, Salary From Emp1 e1 Where 2 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --3rd lowest salary
+SELECT Id, Salary From Emp1 e1 Where 3 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --4th lowest salary
