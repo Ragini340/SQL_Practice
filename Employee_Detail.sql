@@ -199,3 +199,11 @@ SELECT Min(Salary) From Emp1; --1st lowest salary
 SELECT Min(Salary) From Emp1 Where Salary != (SELECT Min(Salary) From Emp1); --2nd lowest salary
 SELECT Id, Salary From Emp1 e1 Where 2 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --3rd lowest salary
 SELECT Id, Salary From Emp1 e1 Where 3 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --4th lowest salary
+
+/*Write a query that joins two tables A and B having common attribute ID and selects records(ID_NAME) that have matching ID values in
+both tables.*/
+SELECT Emp.E_Id, Emp.Name
+FROM Emp
+JOIN Department ON Emp.E_Id = Department.E_Id
+--SELECT * FROM EMP;
+--SELECT * FROM Department;
