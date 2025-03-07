@@ -199,11 +199,34 @@ SELECT Min(Salary) From Emp1; --1st lowest salary
 SELECT Min(Salary) From Emp1 Where Salary != (SELECT Min(Salary) From Emp1); --2nd lowest salary
 SELECT Id, Salary From Emp1 e1 Where 2 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --3rd lowest salary
 SELECT Id, Salary From Emp1 e1 Where 3 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --4th lowest salary
+/*
+Outer Query (SELECT Id, Salary FROM Emp1 e1):
+This selects the Id and Salary columns from the table Emp1, using an alias e1 to refer to each row.
+
+Subquery (SELECT Count(Distinct Salary) FROM Emp1 e2 WHERE e2.Salary < e1.Salary):
+For each row in the outer query (represented by e1), the subquery counts how many distinct salaries from Emp1 are less than the salary of the current row.
+It does this by referencing e2, another alias for the same table. The e2.Salary values are compared to e1.Salary from the outer query row.
+The Count(Distinct Salary) counts how many distinct salaries exist in Emp1 that are smaller than the current e1.Salary.
+
+The condition in the outer query is 2 = (subquery). This means we are looking for rows where the count of distinct salaries less than the current row's salary is exactly 2.
+*/
+
+SELECT Id, Salary From Emp1 e1 Where 3 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --4th lowest salary
 
 /*Write a query that joins two tables A and B having common attribute ID and selects records(ID_NAME) that have matching ID values in
 both tables.*/
 SELECT Emp.E_Id, Emp.Name
 FROM Emp
 JOIN Department ON Emp.E_Id = Department.E_Id
+/*
+JOIN Department ON Emp.E_Id = Department.E_Id:
+This performs an INNER JOIN between the Emp table and the Department table.
+INNER JOIN: This means that only rows where there is a match between the E_Id column in Emp and the E_Id column in Department will be included in the result 
+set.
+If an employee does not have a matching E_Id in the Department table, that employee will not be included in the result.
+ON Emp.E_Id = Department.E_Id: 
+This specifies the condition for the join, where the E_Id in Emp must match the E_Id in Department. This condition links employees to the departments they 
+belong to.
+*/
 --SELECT * FROM EMP;
 --SELECT * FROM Department;
