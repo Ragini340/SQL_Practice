@@ -230,3 +230,13 @@ belong to.
 */
 --SELECT * FROM EMP;
 --SELECT * FROM Department;
+
+--Max salary of first employee
+SELECT MAX(salary) 
+FROM Emp1
+WHERE Id = (SELECT MIN(Id) FROM Emp1);
+/*
+In this query:
+MIN(Id) is used to find the "first" employee based on the minimum Id.
+MAX(salary) will return the maximum salary for this employee.
+*/
