@@ -240,3 +240,6 @@ In this query:
 MIN(Id) is used to find the "first" employee based on the minimum Id.
 MAX(salary) will return the maximum salary for this employee.
 */
+
+--Display the last 3 letters of a string in SQL
+SELECT RIGHT(Name, 3) AS Last_Three_Letters FROM Employee_Details; 
