@@ -260,3 +260,18 @@ SELECT Name FROM Employee_Details Where Name Like 'A%';
         Console.WriteLine(name);
     }
   }*/
+
+Create Table Employee_Gender
+(
+Name varchar(20),
+Gender varchar(20),
+);
+Insert Into Employee_Gender Values ('Bree', 'F');
+Insert Into Employee_Gender Values ('Carl', 'M');
+--Perform an update query to change 'M' to 'F' and 'F' to 'M' in a single query
+UPDATE Employee_Gender
+SET Gender = CASE 
+               WHEN Gender = 'M' THEN 'F'
+               WHEN Gender = 'F' THEN 'M'
+             END
+WHERE Gender IN ('M', 'F');
