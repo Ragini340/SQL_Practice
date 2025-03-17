@@ -243,3 +243,20 @@ MAX(salary) will return the maximum salary for this employee.
 
 --Display the last 3 letters of a string in SQL
 SELECT RIGHT(Name, 3) AS Last_Three_Letters FROM Employee_Details; 
+
+--Write a LINQ query to fetch a list of strings starting from a particular letter.
+--SQL:
+SELECT Name FROM Employee_Details Where Name Like 'A%';
+--LINQ Query:
+/*using (var context = new YourDbContext())  
+  {
+    var namesStartingWithA = context.Employee_Details
+                                    .Where(employee => employee.Name.StartsWith("A"))
+                                    .Select(employee => employee.Name)
+                                    .ToList();
+
+    foreach (var name in namesStartingWithA)
+    {
+        Console.WriteLine(name);
+    }
+  }*/
