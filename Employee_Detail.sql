@@ -16,8 +16,6 @@ Insert Into Employee_Details Values (6, 'Ajeet', 'L&D', Null);
 
 SELECT Max(Salary) From Employee_Details;  --Highest salary 
 SELECT Max(Salary) From Employee_Details Where Salary != (SELECT Max(Salary) From Employee_Details); --2nd highest salary
---3rd highest salary
-SELECT Min(Salary) From Employee_Details Where Salary IN (SELECT Distinct Salary From Employee_Details Order By Salary desc Limit 3);
 
 SELECT COUNT(*) From Employee_Details;
 SELECT COUNT(Salary) From Employee_Details;
@@ -210,8 +208,6 @@ The Count(Distinct Salary) counts how many distinct salaries exist in Emp1 that 
 
 The condition in the outer query is 2 = (subquery). This means we are looking for rows where the count of distinct salaries less than the current row's salary is exactly 2.
 */
-
-SELECT Id, Salary From Emp1 e1 Where 3 = (SELECT Count(Distinct Salary) From Emp1 e2 Where e2.Salary < e1.Salary); --4th lowest salary
 
 /*Write a query that joins two tables A and B having common attribute ID and selects records(ID_NAME) that have matching ID values in
 both tables.*/
