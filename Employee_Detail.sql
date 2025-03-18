@@ -271,3 +271,54 @@ SET Gender = CASE
                WHEN Gender = 'F' THEN 'M'
              END
 WHERE Gender IN ('M', 'F');
+
+Create Table Emp2
+(
+Id int IDENTITY(1,1) PRIMARY KEY,
+Name varchar(20),
+Department varchar(20),
+);
+Insert Into Emp2 Values ('Susan', 'Dev');
+Insert Into Emp2 Values ('Bree', 'HR');
+Insert Into Emp2 Values ('Mike', 'Support');
+Insert Into Emp2 Values ('Carl', 'Devops');
+Insert Into Emp2 Values ('Gaby', 'Marketing');
+
+Create Table Salary
+(
+Id int IDENTITY(1,1) PRIMARY KEY,
+Dep_Id int,
+Salary int
+);
+Insert Into Salary Values (101, 98000);
+Insert Into Salary Values (102, 8000);
+Insert Into Salary Values (103, 80000);
+Insert Into Salary Values (104, 75000);
+Insert Into Salary Values (105, 10000);
+--Display Name, Salary using Emp2 and Salary table
+SELECT e.Name, s.Salary FROM Emp2 e JOIN Salary s ON e.Id = s.Id;
+--Linq query for displaying Name, Salary using Emp2 and Salary table
+/*var result = from e in Emp2
+             join s in Salary on e.Id equals s.Id
+             select new 
+             {
+                 e.Name,
+                 s.Salary
+             };
+
+        foreach (var item in result)
+        {
+            Console.WriteLine($"Name: {item.Name}, Salary: {item.Salary}");
+        }*/
+--Display highest salary using Emp2 and Salary table
+SELECT s.Salary FROM Emp2 e JOIN Salary s ON e.Id = s.Id WHERE s.Salary = (SELECT MAX(Salary) FROM Salary);
+--Linq query for displaying highest salary using Emp2 and Salary table
+/*var maxSalary = Salary.Max(s => s.Salary);
+var result = from e in Emp2
+             join s in Salary on e.Id equals s.Id
+             where s.Salary == maxSalary
+             select s.Salary;
+ foreach (var item in result)
+        {
+            Console.WriteLine($"Salary: {item}");
+        }*/
