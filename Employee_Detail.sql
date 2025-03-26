@@ -322,3 +322,14 @@ var result = from e in Emp2
         {
             Console.WriteLine($"Salary: {item}");
         }*/
+
+--Write a query for insert, update, delete operations.
+Create Table Emp3
+(
+First_Name varchar(20),
+Last_Name varchar(20),
+Salary int
+);
+INSERT INTO Emp3 VALUES ('Ragini', 'Singh', 100000);
+UPDATE Emp3 SET Salary = 200000 WHERE First_Name = 'Ragini';
+DELETE FROM Emp3 WHERE First_Name = 'Ragini';
