@@ -333,3 +333,15 @@ Salary int
 INSERT INTO Emp3 VALUES ('Ragini', 'Singh', 100000);
 UPDATE Emp3 SET Salary = 200000 WHERE First_Name = 'Ragini';
 DELETE FROM Emp3 WHERE First_Name = 'Ragini';
+
+--SQL CRUD queries 
+Create Table Emp4
+(
+Name varchar(20),
+Position varchar(50),
+Salary int
+);
+INSERT INTO Emp4 VALUES ('Ragini', 'Software Developer', 100000);
+SELECT * FROM Emp4;
+UPDATE Emp4 SET Salary = 120000 WHERE Name = 'Ragini';
+DELETE FROM Emp4 WHERE Name = 'Ragini';
